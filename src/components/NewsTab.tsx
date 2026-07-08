@@ -67,6 +67,8 @@ export default function NewsTab() {
       if (res.ok) {
         const data = await res.json();
         setNews(data);
+        // Automatically trigger AI summary generation on initial load
+        generateAISummary(data);
       }
     } catch (err) {
       console.error("Failed to fetch news:", err);
@@ -130,7 +132,7 @@ export default function NewsTab() {
             <Globe className="h-5 w-5 text-emerald-400" />
             <div>
               <h2 className="text-md font-bold text-white font-display">실시간 리서치 필터링 콘솔</h2>
-              <p className="text-xs text-slate-400">지정학, 거시경제 유동성 이슈, 미 대선 물줄기를 실시간 큐레이션합니다.</p>
+              <p className="text-xs text-slate-400">지정학, 거시경제 유동성 이슈, 미 중간선거 물줄기를 실시간 큐레이션합니다.</p>
             </div>
           </div>
 
