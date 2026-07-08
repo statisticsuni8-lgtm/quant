@@ -123,6 +123,29 @@ async function startServer() {
     res.json(newsData);
   });
 
+  // 1.5. Hyperliquid API proxy
+  app.post("/api/hyperliquid", async (req, res) => {
+    try {
+      const response = await fetch("https://api.hyperliquid.xyz/info", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(req.body),
+      });
+
+      if (!response.ok) {
+        throw new Error(`Hyperliquid returned HTTP status ${response.status}`);
+      }
+
+      const data = await response.json();
+      return res.json(data);
+    } catch (error: any) {
+      console.error("Hyperliquid API proxy error:", error);
+      return res.status(500).json({ error: error.message || "Failed to fetch from Hyperliquid" });
+    }
+  });
+
   // 2. Real-time news filter and AI summarization via Gemini
   app.post("/api/news/summarize", async (req, res) => {
     const { category, keyword, customNews } = req.body;
